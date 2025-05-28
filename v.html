@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Import Inter font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+        /* Base styles for the body, applying font and smooth transitions for theme change */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Default light mode background and text color */
+            background-color: #f7f7f7;
+            color: #333;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Dark mode styles for the body */
+        body.dark {
+            background-color: #1a1a1a;
+            color: #f7f7f7;
+        }
+
+        /* Header styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Dark mode styles for header */
+        header.dark {
+            background-color: #262626;
+            color: #f7f7f7;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation container styles */
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo text styling */
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1; /* Indigo color for the first part of the logo */
+        }
+
+        .logo span {
+            color: #333; /* Dark gray for the second part of the logo in light mode */
+        }
+
+        /* Dark mode logo span color */
+        .logo.dark span {
+            color: #f7f7f7; /* Light gray in dark mode */
+        }
+
+        /* Navigation links container */
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        /* Individual navigation link styling */
+        .nav-links a {
+            text-decoration: none;
+            color: #555; /* Medium gray in light mode */
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #6366f1; /* Indigo on hover in light mode */
+        }
+
+        /* Dark mode navigation link styling */
+        .nav-links.dark a {
+            color: #bbb; /* Lighter gray in dark mode */
+        }
+
+        .nav-links.dark a:hover {
+            color: #a78bfa; /* Lighter indigo on hover in dark mode */
+        }
+
+        /* Theme toggle button styling */
+        .theme-toggle {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #555; /* Medium gray in light mode */
+            transition: background-color 0.2s ease, color 0.2s ease;
+            outline: none;
+        }
+
+        .theme-toggle:hover {
+            background-color: #e5e7eb; /* Light gray background on hover */
+        }
+
+        /* Dark mode theme toggle styling */
+        .theme-toggle.dark {
+            color: #bbb; /* Lighter gray in dark mode */
+        }
+
+        .theme-toggle.dark:hover {
+            background-color: #4a5568; /* Darker gray background on hover */
+        }
+
+        .theme-toggle svg {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        /* Hero Section (Homepage) styles */
+        #home {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            /* Gradient background for light mode */
+            background: linear-gradient(to bottom right, #e0f2f7, #ede7f6);
+            color: #333;
+        }
+
+        /* Dark mode hero section background and text color */
+        #home.dark {
+            background: linear-gradient(to bottom right, #262626, #333333);
+            color: #f7f7f7;
+        }
+
+        /* Background dots pattern for hero section */
+        .hero-pattern-dots {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(currentColor 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+        }
+
+        /* Content within the hero section */
+        #home .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        /* Hero heading styles */
+        #home h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(20px); /* Initial state for animation */
+            animation: fadeInUp 0.8s ease-out forwards; /* Apply fadeInUp animation */
+        }
+
+        /* Highlighted span in hero heading */
+        #home h1 span {
+            color: #6366f1; /* Indigo color */
+        }
+
+        /* Dark mode highlight color */
+        #home.dark h1 span {
+            color: #a78bfa; /* Lighter indigo in dark mode */
+        }
+
+        /* Hero paragraph styles */
+        #home p {
+            font-size: 1.2rem;
+            color: #555; /* Medium gray */
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards 0.2s; /* Delayed animation */
+        }
+
+        /* Dark mode hero paragraph color */
+        #home.dark p {
+            color: #bbb; /* Lighter gray */
+        }
+
+        /* Container for hero buttons */
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards 0.4s; /* Further delayed animation */
+        }
+
+        /* Common button styles for hero section */
+        .hero-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Primary button specific styles */
+        .primary-button {
+            background-color: #6366f1;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .primary-button:hover {
+            background-color: #4f46e5;
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Secondary button specific styles */
+        .secondary-button {
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .secondary-button:hover {
+            background-color: #e0f2f7;
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Dark mode secondary button styles */
+        .hero-buttons.dark .secondary-button {
+            border-color: #a78bfa;
+            color: #a78bfa;
+        }
+
+        .hero-buttons.dark .secondary-button:hover {
+            background-color: #374151;
+        }
+
+        /* Projects Section styles */
+        #projects {
+            padding: 4rem 0;
+            background-color: #fff;
+            color: #333;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Dark mode projects section */
+        #projects.dark {
+            background-color: #1a1a1a;
+            color: #f7f7f7;
+        }
+
+        #projects h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Grid for project cards */
+        .projects-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Individual project card styles */
+        .project-card {
+            background-color: #f7f7f7;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Dark mode project card */
+        .project-card.dark {
+            background-color: #262626;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .project-card .card-content {
+            padding: 1.5rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            color: #555;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Dark mode project card paragraph */
+        .project-card.dark p {
+            color: #bbb;
+        }
+
+        /* Project technology tags container */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Individual project tag styles */
+        .project-tag {
+            background-color: #e0f2f7;
+            color: #3b82f6;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        /* Dark mode project tag */
+        .project-card.dark .project-tag {
+            background-color: #3b82f6;
+            color: #e0f2f7;
+        }
+
+        /* Project links container */
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Individual project link styles */
+        .project-links a {
+            text-decoration: none;
+            color: #6366f1;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .project-links a:hover {
+            color: #4f46e5;
+        }
+
+        /* Dark mode project links */
+        .project-card.dark .project-links a {
+            color: #a78bfa;
+        }
+
+        .project-card.dark .project-links a:hover {
+            color: #8b5cf6;
+        }
+
+        /* About Me Section styles */
+        #about {
+            padding: 4rem 0;
+            background-color: #f7f7f7;
+            color: #333;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Dark mode about section */
+        #about.dark {
+            background-color: #262626;
+            color: #f7f7f7;
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        /* Responsive adjustment for about section layout */
+        @media (min-width: 768px) {
+            .about-container {
+                flex-direction: row;
+            }
+        }
+
+        /* About image styling */
+        .about-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 4px solid #e0f2f7;
+        }
+
+        /* Dark mode about image border */
+        .about-container.dark .about-image {
+            border-color: #374151;
+        }
+
+        /* About content text alignment */
+        .about-content {
+            text-align: center;
+        }
+
+        /* Responsive adjustment for about content text alignment */
+        @media (min-width: 768px) {
+            .about-content {
+                text-align: left;
+            }
+        }
+
+        .about-content h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .about-content p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        /* Dark mode about content paragraph */
+        .about-content.dark p {
+            color: #bbb;
+        }
+
+        /* Social links container */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Responsive adjustment for social links alignment */
+        @media (min-width: 768px) {
+            .social-links {
+                justify-content: flex-start;
+            }
+        }
+
+        /* Individual social link styling */
+        .social-links a {
+            color: #555;
+            transition: color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: #6366f1;
+        }
+
+        /* Dark mode social links */
+        .social-links.dark a {
+            color: #bbb;
+        }
+
+        .social-links.dark a:hover {
+            color: #a78bfa;
+        }
+
+        .social-links svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        /* Contact Section styles */
+        #contact {
+            padding: 4rem 0;
+            background-color: #fff;
+            color: #333;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Dark mode contact section */
+        #contact.dark {
+            background-color: #1a1a1a;
+            color: #f7f7f7;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .contact-container h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        /* Contact form styling */
+        .contact-form {
+            background-color: #f7f7f7;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Dark mode contact form */
+        .contact-form.dark {
+            background-color: #262626;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Form group (label + input/textarea) */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+            text-align: left; /* Align labels to the left */
+        }
+
+        /* Dark mode form labels */
+        .contact-form.dark .form-group label {
+            color: #bbb;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            font-family: inherit;
+            color: #333;
+            background-color: #fff;
+            transition: border-color 0.2s ease;
+        }
+
+        /* Dark mode form inputs/textareas */
+        .contact-form.dark .form-group input,
+        .contact-form.dark .form-group textarea {
+            border-color: #4a5568;
+            background-color: #374151;
+            color: #f7f7f7;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Submit button for contact form */
+        .submit-button {
+            padding: 0.75rem 2rem;
+            background-color: #6366f1;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            background-color: #4f46e5;
+            transform: scale(1.02);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer styles */
+        footer {
+            padding: 2rem 0;
+            background-color: #262626;
+            color: #fff;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        footer.dark {
+            background-color: #0d0d0d;
+        }
+
+        /* Custom CSS for animations */
+        /* Fade-in-up animation definition */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply animation to elements with specific classes */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0; /* Ensures element is hidden before animation starts */
+        }
+
+        /* Animation delays for staggered effects */
+        .animate-fade-in-up.delay-200 { animation-delay: 0.2s; }
+        .animate-fade-in-up.delay-400 { animation-delay: 0.4s; }
+
+        /* Custom modal for alerts */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 100; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more responsive */
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content.dark {
+            background-color: #2d3748;
+            color: #f7f7f7;
+            border-color: #4a5568;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content.dark .close-button {
+            color: #bbb;
+        }
+
+        .modal-content.dark .close-button:hover,
+        .modal-content.dark .close-button:focus {
+            color: #f7f7f7;
+        }
+
+    </style>
+</head>
+<body class="">
+    <header id="main-header">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo">
+                VAJA ARYA<span>.dev</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg class="sun-icon hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.93 19.07l1.41-1.41"/><path d="M17.66 6.34l1.41-1.41"/></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="relative">
+        <div class="hero-pattern-dots"></div>
+        <div class="hero-content">
+            <h1 class="text-5xl md:text-6xl animate-fade-in-up">
+                Hi, I'm <span>Vaja Arya</span>.
+            </h1>
+            <p class="text-xl md:text-2xl animate-fade-in-up delay-200">
+                A passionate Full Stack Developer building robust and scalable web applications.
+                I turn ideas into seamless digital experiences.
+            </p>
+            <div class="hero-buttons animate-fade-in-up delay-400">
+                <a href="#projects" class="hero-button primary-button">
+                    View My Work
+                </a>
+                  <a href="https://www.overleaf.com/project/66d9f71670b13d3a7f7f19ac" class="hero-button secondary-button">Download Resume</a>
+                    
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container mx-auto px-4">
+            <h2>My Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img
+                    src="https://placehold.co/600x400/E0F2F7/2C3E50?text=Project+1+Image"
+                    alt="Project 1"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/E0F2F7/2C3E50?text=Image+Not+Found';"
+                    />
+                    <div class="card-content">
+                        <h3>E-Commerce-Site</h3>
+                        <p>
+                          HTML structures product listings, navigation, and a cart. CSS styles the layout, appearance, and responsiveness. JavaScript adds interactivity like "add to cart," cart management, and basic client-side behavior.<div class="project-tags">
+                            <span class="project-tag bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">HTML</span>
+                            <span class="project-tag bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">CSS</span>
+                            <span class="project-tag bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/aryavaja4/e-commerce-website" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1.09 0-3 1.5A7.7 7.7 0 0 0 12 4c-.72 0-1.44.18-2.07.53C7.9 4.1 6.81 4 6.81 4c-.55 1.02-.9 2.22-.78 3.47 0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
+                                <span>GitHub Repo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img
+                        src="https://placehold.co/600x400/F0F8FF/36454F?text=Project+2+Image"
+                        alt="Project 2"
+                        onerror="this.onerror=null;this.src='https://placehold.co/600x400/F0F8FF/36454F?text=Image+Not+Found';"
+                    />
+                    <div class="card-content">
+                        <h3>Sheduling Algorithms</h3>
+                        <p>
+                          in above terms
+
+
+                          Scheduling algorithms manage limited resources (CPU, disk, network) for multiple tasks, aiming to optimize performance metrics like waiting time, throughput, and fairness. Different algorithms (FCFS, SJF, RR for CPU; SSTF, SCAN for disk; FIFO, WFQ for network; RMS, EDF for real-time) prioritize these goals based on system requirements</p>
+                        <div class="project-tags">
+                            <span class="project-tag bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Python</span>
+                            <span class="project-tag bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">JavaScript</span>
+                            <span class="project-tag bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">Node.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/aryavaja4/scheduling-algorithm-visualization" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1.09 0-3 1.5A7.7 7.7 0 0 0 12 4c-.72 0-1.44.18-2.07.53C7.9 4.1 6.81 4 6.81 4c-.55 1.02-.9 2.22-.78 3.47 0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
+                                <span>GitHub Repo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img
+                        src="https://placehold.co/600x400/FFF0F5/8B0000?text=Project+3+Image"
+                        alt="Project 3"
+                        onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF0F5/8B0000?text=Image+Not+Found';"
+                    />
+                    <div class="card-content">
+                        <h3>Game Play</h3>
+                        <p>
+                            A fun side project, maybe a game or a utility tool, showcasing a different skill set like game development or browser extensions.
+                        </p>
+                        <div class="project-tags">
+                            <span class="project-tag bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300">C</span>
+                            <span class="project-tag bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300">CPP</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/aryavaja4/Game" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1.09 0-3 1.5A7.7 7.7 0 0 0 12 4c-.72 0-1.44.18-2.07.53C7.9 4.1 6.81 4 6.81 4c-.55 1.02-.9 2.22-.78 3.47 0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
+                                <span>GitHub Repo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-container">
+            <div class="md:w-1/3 flex justify-center">
+                <img
+                    src="https://placehold.co/300x300/E0F2F7/2C3E50?text=Your+Photo"
+                    alt="Your Photo"
+                    class="about-image"
+                    onerror="this.onerror=null;this.src='https://placehold.co/300x300/E0F2F7/2C3E50?text=Photo+Not+Found';"
+                />
+            </div>
+            <div class="md:w-2/3 about-content">
+                <h2>About Me</h2>
+                <p>
+                    Hey there! I'm Vaja Arya, a passionate developer with a knack for crafting elegant and efficient solutions.
+                    My journey into the world of code began with a fascination for how things work, leading me to dive deep into web development.
+                    I love bringing ideas to life through clean code and intuitive user experiences.
+                </p>
+                <p>
+                    When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
+                    or perhaps enjoying a good book/game. I believe in continuous learning and always strive to expand my skill set.
+                    Let's build something amazing together!
+                </p>
+                <div class="social-links">
+                    <a href="https://github.com/aryavaja4" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1.09 0-3 1.5A7.7 7.7 0 0 0 12 4c-.72 0-1.44.18-2.07.53C7.9 4.1 6.81 4 6.81 4c-.55 1.02-.9 2.22-.78 3.47 0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/arya-vaja-48109b272/" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="mailto:aryavaja7@gmail.com">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="contact-container">
+            <h2>Get in Touch</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="6" placeholder="Your message..." required></textarea>
+                </div>
+                <button type="submit" class="submit-button">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container mx-auto px-4">
+            <p>&copy; <span id="current-year"></span> VAJA ARYA. All rights reserved.</p>
+            <p class="mt-2">Built with ❤️ and HTML + CSS + JavaScript</p>
+        </div>
+    </footer>
+
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+
+    <script>
+        // Get references to DOM elements
+        const body = document.body;
+        const mainHeader = document.getElementById('main-header');
+        const themeToggle = document.getElementById('theme-toggle');
+        const moonIcon = document.querySelector('.moon-icon');
+        const sunIcon = document.querySelector('.sun-icon');
+        const resumeDownloadBtn = document.getElementById('resume-download-btn');
+        const currentYearSpan = document.getElementById('current-year');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const sections = document.querySelectorAll('section');
+
+        // Modal elements
+        const customModal = document.getElementById('custom-modal');
+        const modalMessage = document.getElementById('modal-message');
+        const closeModalButton = document.querySelector('.close-button');
+
+        /**
+         * Shows a custom modal with a given message.
+         * @param {string} message - The message to display in the modal.
+         */
+        function showCustomModal(message) {
+            modalMessage.textContent = message;
+            customModal.style.display = 'flex'; // Use flex to center content
+        }
+
+        /**
+         * Hides the custom modal.
+         */
+        function hideCustomModal() {
+            customModal.style.display = 'none';
+        }
+
+        // Event listener for closing the modal
+        closeModalButton.addEventListener('click', hideCustomModal);
+        window.addEventListener('click', (event) => {
+            if (event.target === customModal) {
+                hideCustomModal();
+            }
+        });
+
+        // Function to set the theme (light or dark)
+        function setTheme(newTheme) {
+            // Update body class for styling
+            body.classList.toggle('dark', newTheme === 'dark');
+            mainHeader.classList.toggle('dark', newTheme === 'dark');
+            // Toggle dark classes on hero section
+            document.getElementById('home').classList.toggle('dark', newTheme === 'dark');
+            document.getElementById('projects').classList.toggle('dark', newTheme === 'dark');
+            document.getElementById('about').classList.toggle('dark', newTheme === 'dark');
+            document.getElementById('contact').classList.toggle('dark', newTheme === 'dark');
+            document.querySelector('.contact-form').classList.toggle('dark', newTheme === 'dark');
+            document.querySelector('footer').classList.toggle('dark', newTheme === 'dark');
+
+            // Toggle dark classes on project cards
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.classList.toggle('dark', newTheme === 'dark');
+            });
+            document.querySelectorAll('.project-card p').forEach(p => {
+                p.classList.toggle('dark', newTheme === 'dark');
+            });
+            document.querySelectorAll('.project-tag').forEach(tag => {
+                tag.classList.toggle('dark', newTheme === 'dark');
+            });
+            document.querySelectorAll('.project-links a').forEach(link => {
+                link.classList.toggle('dark', newTheme === 'dark');
+            });
+            document.querySelector('.about-container').classList.toggle('dark', newTheme === 'dark');
+            document.querySelector('.about-image').classList.toggle('dark', newTheme === 'dark');
+            document.querySelector('.about-content p').classList.toggle('dark', newTheme === 'dark');
+            document.querySelectorAll('.social-links a').forEach(link => {
+                link.classList.toggle('dark', newTheme === 'dark');
+            });
+            document.querySelectorAll('.form-group label').forEach(label => {
+                label.classList.toggle('dark', newTheme === 'dark');
+            });
+            document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+                input.classList.toggle('dark', newTheme === 'dark');
+            });
+
+
+            // Toggle visibility of sun/moon icons
+            if (newTheme === 'dark') {
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+                themeToggle.classList.add('dark');
+                document.querySelector('.logo').classList.add('dark');
+                document.querySelector('.nav-links').classList.add('dark');
+                document.querySelector('.hero-buttons').classList.add('dark');
+            } else {
+                moonIcon.classList.remove('hidden');
+                sunIcon.classList.add('hidden');
+                themeToggle.classList.remove('dark');
+                document.querySelector('.logo').classList.remove('dark');
+                document.querySelector('.nav-links').classList.remove('dark');
+                document.querySelector('.hero-buttons').classList.remove('dark');
+            }
+
+            // Persist theme preference in local storage
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Event listener for theme toggle button
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+
+        // Function to handle resume download
+        resumeDownloadBtn.addEventListener('click', () => {
+            showCustomModal('Resume download functionality would go here. Please replace this with your actual PDF link!');
+            // window.open('/path/to/your/resume.pdf', '_blank'); // Example: Replace with your resume path
+        });
+
+        // Set current year in the footer
+        currentYearSpan.textContent = new Date().getFullYear();
+
+        // Smooth scrolling for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent default anchor link behavior
+                const targetId = this.getAttribute('href'); // Get the href attribute (e.g., '#home')
+                const targetSection = document.querySelector(targetId); // Find the target section
+
+                if (targetSection) {
+                    // Scroll to the target section smoothly
+                    window.scrollTo({
+                        top: targetSection.offsetTop - mainHeader.offsetHeight, // Adjust for fixed header height
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in-up animations on sections
+        const observerOptions = {
+            root: null, // viewport as the root
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add a class to trigger animations if the section is in view
+                    entry.target.querySelectorAll('.animate-fade-in-up').forEach(el => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    });
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, observerOptions);
+
+        // Observe each section for animation
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+
+            // Trigger animations for the hero section immediately on load
+            document.querySelectorAll('#home .animate-fade-in-up').forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            });
+        });
+
+    </script>
+</body>
+</html>
